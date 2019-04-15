@@ -1,0 +1,26 @@
+[
+  {
+    "claTitleImg":"//img.alicdn.com/tfs/TB150tmQ3DqK1RjSZSyXXaxEVXa-1035-447.gif",
+    "clagoods":[
+      {
+        "clagoodsImg":"//img.alicdn.com/simba/img/TB1Ii07QMHqK1RjSZFPSuwwapXa.jpg_270x270Q75s50.jpg_.webp",
+        "claId":2501,
+        "claHeader":"9.9元秒杀",
+        "subHeader":"周年庆典狂欢"
+      },
+      {
+        "clagoodsImg":"//img.alicdn.com/tfs/TB1WDz0NkzoK1RjSZFlXXai4VXa-339-390.jpg_270x270Q75s50.jpg_.webp",
+        "claId":2502,
+        "claHeader":"美酒狂欢趴",
+        "subHeader":"爆款直降"
+      },
+      {
+        "clagoodsImg":"//img.alicdn.com/imgextra/i4/2168464600/O1CN01vly8we1jqqPxOaYCs_!!2168464600.jpg_270x270Q75s50.jpg_.webp",
+        "claId":2503,
+        "claHeader":"满99减50",
+        "subHeader":"周年庆典大放价"
+      }
+    ]
+  }
+
+]
