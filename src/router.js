@@ -11,13 +11,14 @@ export default new VueRouter({
       children: [
         { path: 'index', component: () => import('./views/Index.vue') },
         { path: 'brand', component: () => import('./views/Brand.vue') },
-        { path: 'classify', component: () => import('./views/Classify.vue') },
         { path: 'personalCenter', component: () => import('./views/PersonalCenter.vue') },
         { path: '', redirect: 'index' }
       ]
     },
     { path: '/register1', component: () => import('./views/Register1.vue') },
+    { path: '/classify', component: () => import('./views/Classify.vue') },
     { path: '/login', component: () => import('./views/Login.vue') },
-    { path: '/register2', component: () => import('./views/Register2.vue') }
+    { path: '/register2', component: () => import('./views/Register2.vue') },
+    { path: '/commodityList/:id', name: 'shopping', component: () => import('./views/CommodityList.vue') }
   ]
 })
