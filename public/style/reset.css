@@ -9,10 +9,8 @@ li { list-style:none; }
 html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, fieldset, legend, img,input,textarea,select,th,td,dl,dd,figure{margin:0;padding:0;}
 body,html{
 		font:.12rem "微软雅黑",Arial;
-		color:#fff;
 		background-color: #f0f0f0;
 		}
-
 em,i { font-style:normal; }
 input{
 	border:0;

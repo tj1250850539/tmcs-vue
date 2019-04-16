@@ -15,6 +15,9 @@ export default new VueRouter({
         { path: 'personalCenter', component: () => import('./views/PersonalCenter.vue') },
         { path: '', redirect: 'index' }
       ]
-    }
+    },
+    { path: '/register1', component: () => import('./views/Register1.vue') },
+    { path: '/login', component: () => import('./views/Login.vue') },
+    { path: '/register2', component: () => import('./views/Register2.vue') }
   ]
 })
