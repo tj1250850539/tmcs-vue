@@ -5,6 +5,8 @@
     lab2='登录密码'
     pr1='手机号/邮箱/会员名'
     pr2='请输入密码'
+    itype='text'
+    subtxt='登 录'
   >
     <template v-slot:a_link>
       <div class="lgn_link">

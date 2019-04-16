@@ -18,6 +18,8 @@ export default new VueRouter({
     },
     { path: '/register1', component: () => import('./views/Register1.vue') },
     { path: '/login', component: () => import('./views/Login.vue') },
-    { path: '/register2', component: () => import('./views/Register2.vue') }
+    { path: '/register2', component: () => import('./views/Register2.vue') },
+    { path: '/goodsinfo', name: 'gogoods', component: () => import('./views/GoodsInfo.vue') }
+
   ]
 })
