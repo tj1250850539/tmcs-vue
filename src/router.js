@@ -19,6 +19,8 @@ export default new VueRouter({
     { path: '/classify', component: () => import('./views/Classify.vue') },
     { path: '/login', component: () => import('./views/Login.vue') },
     { path: '/register2', component: () => import('./views/Register2.vue') },
-    { path: '/commodityList/:id', name: 'shopping', component: () => import('./views/CommodityList.vue') }
+    { path: '/commodityList/:id', name: 'shopping', component: () => import('./views/CommodityList.vue') },
+    { path: '/goodsinfo', name: 'gogoods', component: () => import('./views/GoodsInfo.vue') }
+
   ]
 })

@@ -25,8 +25,8 @@
           </div>
         </div>
         <div class="re_slide" ref='slider'>
-          <div class="re_slide_mask"></div>
-          <div class="re_sliding" ref='thunk' @mouseup="up" @touchstart="down" @touchmove="move">>></div>
+          <div class="re_slide_mask" :class='{mask_w:isReach}' ref='mask' style='width:0'></div>
+          <div class="re_sliding" :class='{reach:isReach}' ref='thunk' @touchend="up" @touchstart="down" @touchmove="move">>></div>
           <label for="" class="re_slide_lab">向右滑动验证</label>
         </div>
       </form>
@@ -38,6 +38,7 @@
   </div>
 </template>
 <script>
+import { setTimeout } from 'timers';
 export default {
   data () {
     return{
@@ -45,35 +46,60 @@ export default {
       left:'',
       isDown:false,
       slideLeft:0,
-
+      psThunkLeft:0,
+      psThunkW:0,
+      psSliderW:0,
+      isReach:false
     }
   },
   watch: {
     left: function(newData,formerData){
       this.$refs.thunk.style.left = newData+"px"
+      this.$refs.mask.style.width = newData+"px"
     }
   },
   methods: {
-    down(){
+    down(event){
       this.isDown = true
       var t = event.touches[0];
+      var sliderL = this.$refs.slider.offsetLeft;
       this.$refs.thunk.onclick = function(e){
-        this.slideLeft = e.clientX-this.$refs.slider.offsetLeft;
+      this.slideLeft = t-sliderL
       }
     },
     move(){
       if(this.isDown){
         var t = event.touches[0];
         this.left= t.pageX-this.$refs.thunk.offsetWidth/2+this.slideLeft
+        this.psThunkLeft = parseInt(this.$refs.thunk.style.left) //滑块距离起点的距离
+        this.psThunkW = parseInt(this.$refs.thunk.offsetWidth)  //滑块的宽度
+        this.psSliderW = parseInt(this.$refs.slider.offsetWidth) //承载滑块的宽度
+        // console.log(this.$refs.thunk.style.left) //thunk距离起点的距离
         if(this.left < 0){
           this.left = 0;
         }
+        if(this.psThunkLeft+this.psThunkW == this.psSliderW){
+          //只要滑块到底,不论有没有抬起手指 都触发验证成功
+          this.isReach = false  //false 表示滑块已经到顶了 不需要添加css3过渡动画
+          alert('验证通过')
+          this.$router.push('/register2')
+        }
         if(this.left>this.$refs.slider.offsetWidth-this.$refs.thunk.offsetWidth)
-        this.left=this.$refs.slider.offsetWidth-this.$refs.thunk.offsetWidth
-      }
+          this.left=this.$refs.slider.offsetWidth-this.$refs.thunk.offsetWidth
+        }
+
 
     },
     up(){
+      if(this.psThunkLeft+this.psThunkW < this.psSliderW){
+         this.isReach = true  //ture 表示滑块还没有到顶,需要添加css3过渡动画
+         var _this = this
+         setTimeout(function(){
+           _this.$refs.thunk.style.left = '0px'
+           _this.$refs.mask.style.width = '0px'
+           _this.isReach = false
+         },500)
+      }
       this.isDown=false;
     }
   },
@@ -187,6 +213,12 @@ export default {
     margin:0 15px;
     position: relative;
     margin-top:10px;
+    .mask_w{
+      -webkit-animation: maskw 0.5s infinite;
+    }
+    .reach{
+      -webkit-animation: thunkisreach 0.5s infinite;
+    }
     .re_sliding{
       width:52px;
       height:52px;
@@ -197,6 +229,11 @@ export default {
       color:#ccc;
       position: absolute;
       display:inline-block;
+    }
+    .re_slide_mask{
+      height:100%;
+      background:rgb(120,196,48);
+      position: absolute;
     }
     .re_slide_lab{
       background: -webkit-gradient(linear, left top, right top, color-stop(0, #4d4d4d), color-stop(.4, #4d4d4d), color-stop(.5, white), color-stop(.6, #4d4d4d), color-stop(1, #4d4d4d));
@@ -220,6 +257,16 @@ export default {
   line-height: 20px;
   a{
     color: #f40;
+  }
+}
+@keyframes maskw {
+  100% {
+    width:0px;
+  }
+}
+@keyframes thunkisreach {
+  100% {
+      left:0;
   }
 }
 @keyframes slidetounlock {

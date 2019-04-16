@@ -5,7 +5,9 @@
       <form action="">
         <div class="lgn_pu lgn_bank">
           <label for="" class="lgn_lab">{{ lab1 }}</label>
-          <input type="text" :placeholder="pr1">
+          <input :type="itype" :placeholder="pr1">
+          <slot name='pwd_on_off'></slot>
+          <!-- <div style="position:absolute;width:20px;height:20px;background:#000;"></div> -->
         </div>
         <slot name="re_pwd_hint"></slot>
         <div class="lgn_pu lgn_pwd">
@@ -14,7 +16,7 @@
         </div>
         <slot name="re_uname_hint"></slot>
         <div class="lgn_sub">
-          <input type="submit" value="登 录" style="width:100%">
+          <input type="submit" :value="subtxt" style="width:100%">
         </div>
       </form>
       <slot name="a_link"></slot>
@@ -34,12 +36,18 @@ export default {
       type:String
     },
     pr1: {
-
+      type:String
     },
     pr2: {
-
+      type:String
+    },
+    itype: {
+      type:String
+    },
+    subtxt: {
+      type:String
     }
-  }
+  },
 }
 </script>
 <style lang="less">

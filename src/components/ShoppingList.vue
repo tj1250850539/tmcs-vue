@@ -54,7 +54,7 @@ export default {
     },
     gogoods (nid) {
       this.$router.push({
-        name: 'Describe',
+        name: 'gogoods',
         query: {
           id: this.$route.params.id,
           nid: nid
