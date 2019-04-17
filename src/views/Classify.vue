@@ -19,6 +19,7 @@
 <script>
 import axios from 'axios'
 import ClassifyList from '../components/ClassifyList'
+import { types } from 'util';
 export default {
   data() {
     return {
@@ -46,6 +47,13 @@ export default {
           alert('获取数据失败')
         }
       })
+    },
+    getActiveKey (id) {
+      for(var i=0;i < this.navList.length;i++) {
+        if(this.navList[i].id === id){
+          this.activeKey = i
+        }
+      }
     }
   },
   components: {
@@ -53,6 +61,10 @@ export default {
   },
   created () {
     this.getNavList()
+    this.navId = this.$route.query.id || '2122'
+ },
+  updated () {
+    this.getActiveKey(this.navId)
   }
 }
 </script>
@@ -60,6 +72,7 @@ export default {
 #classify{
   height: 100%;
   background: #EEE;
+  overflow: hidden;
   .van-nav-bar{
     line-height: 43px;
     height: 43px;
@@ -67,12 +80,11 @@ export default {
     border-bottom: 1px solid #E1E1E1;
   }
   .tab-nav{
-    height: 624px;
+    height: 93%;
     .tab-content{
       float: left;
-      height: 620px;
+      height: 100%;
       width: 23%;
-      overflow: hidden;
       .van-badge-group{
         height: 100%;
         text-align: center;

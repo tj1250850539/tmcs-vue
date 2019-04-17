@@ -1,12 +1,17 @@
 <template>
   <div class="Shopping">
-    <div class="ShoopingList" v-for="item in shoppingList" :key='item.nid' @touchstart='gogoods(item.nid)'>
+    <div class="ShoopingList" v-for="item in shoppingList" :key='item.nid'>
       <van-card
       :price="item.price"
       :desc="'月销量'+item.sold"
       :title="item.title"
-      :thumb="item.img"/>
+      :thumb="item.img" @touchstart='gogoods(item.nid)'/>
       <i class="iconfont icon-gouwuche"></i>
+    </div>
+    <div class="tm-footer">
+      <van-tabbar v-model="active">
+        <van-tabbar-item icon="shopping-cart-o" :info="shoppingNum"></van-tabbar-item>
+      </van-tabbar>
     </div>
   </div>
 </template>
@@ -20,7 +25,9 @@ export default {
   },
   data() {
     return {
-      shoppingList: []
+      active: 0,
+      shoppingList: [],
+      shoppingNum: 1
     }
   },
   methods: {
@@ -69,8 +76,12 @@ export default {
 </script>
 
 <style lang="less">
+.Shopping{
+  padding-bottom: 50px;
+}
 .ShoopingList{
   position: relative;
+  margin-bottom: 5px;
   border-bottom: 1px solid #cacaca;
   i{
     width: 36px;
@@ -88,6 +99,7 @@ export default {
 }
 .ShoopingList:nth-last-of-type(1){
   border-bottom: 0;
+  margin-bottom: 0;
 }
 .van-card__title {
   padding-right: 8px;
@@ -97,5 +109,30 @@ export default {
 }
 .van-card:not(:first-child){
   margin: 0;
+}
+.tm-footer{
+  .van-tabbar{
+    height: 60px;
+  }
+  .van-tabbar-item{
+    //height: 60px !important;
+    background-color: #f0f0f0;
+  }
+  .van-tabbar-item__icon{
+    width: 40px;
+    height: 40px;
+    border: 3px solid #fff;
+    border-radius: 50px;
+    font-size: 13px;
+    line-height: 42px;
+    text-align: center;
+    background: #e8374d;
+    margin: auto;
+    i{
+      line-height: 42px;
+      font-size: 26px;
+      color: #fff;
+    }
+  }
 }
 </style>

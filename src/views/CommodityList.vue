@@ -32,10 +32,9 @@ export default {
   },
   methods: {
     backout (e) {
-      this.$router.back()
+      this.$router.push('/index')
       e.preventDefault()
     }
-
   },
   components: {
     ShoppingList

@@ -4,6 +4,7 @@ import router from './router'
 import Vant from 'vant'
 import 'vant/lib/index.css'
 import store from './store/index'
+import animate from 'animate.css'
 
 Vue.use(Vant)
 

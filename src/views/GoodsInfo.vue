@@ -13,21 +13,21 @@
     <div id="g_cont" ref='g_cont'>
       <div class='g_cont_img1'>
         <div class='g_cont_img2'>
-          <img :src="gData.img" alt="">
+          <img :src=" Oflag === 1 ? gData.goodsImgUrl :gData.img" alt="">
         </div>
       </div>
       <div class='g_cont_info'>
         <h2 class='g_cont_cost'>
           <p>
             <i class='c_201 fs20'>¥</i>
-            <b class='c_201 fs24'>{{ gData.price }}</b>
+            <b class='c_201 fs24'>{{ Oflag === 1 ? gData.goodsMoney : gData.price }}</b>
           </p>
           <span class='g_cont_rec'>超市推荐</span>
         </h2>
-        <p style='font-size:14px;'>{{ gData.title }}</p>
+        <p style='font-size:14px;'>{{ Oflag === 1 ? gData.goodsName : gData.title }}</p>
         <div class='g_cont_correlation'>
           <span>满88包邮(20kg内)</span>
-          <span>月销量 {{ gData.sold }}件</span>
+          <span> {{ Oflag === 1 ? gData.goodsSales : '月销量'+gData.sold+'件' }}</span>
           <span>广东惠州</span>
         </div>
       </div>
@@ -107,12 +107,18 @@ export default {
       elGCont:null,
       elGHeader:null,
       iscolor:false,
-      gData:{}
+      gData:{},
+      Oflag: 1
     }
   },
   mounted () {
     this.isScroll()
-    this.getGoodsInfo()
+    this.Oflag = Object.getOwnPropertyNames(this.$route.query).length
+    if(this.Oflag === 1){
+      this.getGoods()
+    }else{
+      this.getGoodsInfo()
+    }
   },
   methods: {
     isScroll(){
@@ -138,7 +144,6 @@ export default {
             if(key === this.$route.query.id){
               for(let srpnid in data.data[key].srp){
                 if(data.data[key].srp[srpnid].nid == this.$route.query.nid){
-                  console.log(data.data[key].srp[srpnid])
                   this.gData = data.data[key].srp[srpnid]
                 }
               }
@@ -149,8 +154,26 @@ export default {
         }
 
       })
+    },
+    getGoods () {
+      Axios.get('/tmData/likeGoods.json').then(res => {
+         console.log(res)
+        if(res.statusText.toLowerCase() === 'ok'){
+          let data = res.data
+          for (var key in data) {
+
+            for(var i in data[key].goodss){
+              if(data[key].goodss[i].goodsId === this.$route.query.id){
+                this.gData = data[key].goodss[i]
+              }
+            }
+          }
+        } else {
+          console.log('获取失败')
+        }
+      })
     }
-  },
+  }
 };
 </script>
 <style lang="less">

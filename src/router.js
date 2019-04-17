@@ -16,11 +16,11 @@ export default new VueRouter({
       ]
     },
     { path: '/register1', component: () => import('./views/Register1.vue') },
-    { path: '/classify', component: () => import('./views/Classify.vue') },
+    { path: '/classify',name: 'classifys', component: () => import('./views/Classify.vue') },
     { path: '/login', component: () => import('./views/Login.vue') },
     { path: '/register2', component: () => import('./views/Register2.vue') },
     { path: '/commodityList/:id', name: 'shopping', component: () => import('./views/CommodityList.vue') },
-    { path: '/goodsinfo', name: 'gogoods', component: () => import('./views/GoodsInfo.vue') }
-
+    { path: '/goodsinfo', name: 'gogoods', component: () => import('./views/GoodsInfo.vue') },
+    { path: '/shoppingTrolley', component: () => import('./views/ShoppingTrolley.vue') }
   ]
 })
