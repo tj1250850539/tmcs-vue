@@ -29,4 +29,5 @@ export default {
 #home{
   padding-bottom: 50px;
 }
+
 </style>
