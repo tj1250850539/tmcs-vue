@@ -1,6 +1,6 @@
 <template>
   <div id="g_box">
-    <div id="g_header" ref='g_header'>
+    <div id="g_header" ref='g_header' :class='{backdonghuashow:iscolor,backdonghuahid:!iscolor}'>
       <div>
         <a class="iconfont icon-iconfontjiantou1 g_icon_ba" :class='{g_icon_scrolldown:iscolor}' @touchstart='$router.back() '></a>
         <a class="iconfont icon-fangdajing g_icon_ba" :class='{g_icon_scrolldown:iscolor}' ></a>
@@ -87,7 +87,7 @@
           <i class='fs24'>></i>
         </div>
       </div>
-      <p v-for='item in 10' :key='item' class='g_cont_p'>{{ item }}.绝对不是我偷懒,而是评价本来就长这样,略略略</p>
+      <p v-for='item in 10' :key='item' class='g_cont_p'>{{ item }}.{{ gData.title }}</p>
     </div>
     <van-goods-action id="g_footer">
       <van-goods-action-mini-btn icon="shop-collect-o" text="店铺"/>
@@ -100,8 +100,8 @@
 
 <script>
 import Axios from 'axios'
+import { setTimeout } from 'timers';
 export default {
-
   data () {
     return {
       elGCont:null,
@@ -128,10 +128,15 @@ export default {
       this.elGCont.addEventListener('scroll',function(){
         let scrollTop = _this.elGCont.scrollTop
         if(scrollTop>_this.elGHeader.offsetHeight){
-          _this.elGHeader.style.background = '#fff'
+          setTimeout(function(){
+            _this.elGHeader.style.background = '#fff'
+          },500)
           _this.iscolor = true
         } else {
-          _this.elGHeader.style.background = 'transparent'
+          setTimeout(function(){
+            _this.elGHeader.style.background = 'transparent'
+          },500)
+
            _this.iscolor = false
         }
       })
@@ -353,6 +358,21 @@ export default {
   background-color: #ff9500;
   font-size: 15px;
 }
-
+.backdonghuashow {
+  animation: backdonghu 0.5s;
+}
+.backdonghuahid {
+  animation: backdonghuashow 0.5s;
+}
+}
+@keyframes backdonghu {
+  100%{
+    background:#fff
+  }
+}
+@keyframes backdonghuashow {
+  100%{
+    background:transparent;
+  }
 }
 </style>
