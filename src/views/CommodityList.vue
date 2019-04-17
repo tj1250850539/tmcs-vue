@@ -1,7 +1,7 @@
 <template>
   <div id="commodity">
     <div class="head">
-      <div class="h-left" @click="$router.back()">
+      <div class="h-left" @touchstart="backout">
         <i class="iconfont icon-shouye2"></i>
         <span>天猫超市</span>
       </div>
@@ -29,6 +29,13 @@ export default {
     return {
       value :''
     }
+  },
+  methods: {
+    backout (e) {
+      this.$router.back()
+      e.preventDefault()
+    }
+
   },
   components: {
     ShoppingList
