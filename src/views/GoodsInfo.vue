@@ -94,6 +94,19 @@
       <van-goods-action-mini-btn icon="star-o" text="收藏"/>
       <van-goods-action-big-btn text="加入购物车" @click="goshopping"/>
     </van-goods-action>
+    <transition>
+      <div id='alert_mask' v-show='flag'>
+        <p>123</p>
+        <p>123</p>
+        <p>123</p>
+        <p>123</p>
+        <p>123</p>
+        <p>123</p>
+        <p>123</p>
+        <p>123</p>
+        <p>123</p>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -108,7 +121,8 @@ export default {
       elGHeader:null,
       iscolor:false,
       gData:{},
-      Oflag: 1
+      Oflag: 1,
+      flag: false
     }
   },
   mounted () {
@@ -211,6 +225,20 @@ export default {
   font-size:24px;
 }
 #g_box{
+  overflow:hidden;
+  #alert_mask{
+    position:absolute;
+    bottom:50px;
+    width: 100%;
+    height:auto;
+    // min-height:300px;
+    padding:50px 0;
+    background:#fff;
+    z-index:100;
+  }
+  #g_footer{
+    z-index:101;
+  }
   height:100%;
   display: flex;
   flex-direction: column;
@@ -375,10 +403,10 @@ export default {
   font-size: 15px;
 }
 .backdonghuashow {
-  animation: backdonghu 0.5s;
+  animation: backdonghu 0.8s;
 }
 .backdonghuahid {
-  animation: backdonghuashow 0.5s;
+  animation: backdonghuashow 0.8s;
 }
 }
 @keyframes backdonghu {
@@ -390,5 +418,19 @@ export default {
   100%{
     background:transparent;
   }
+}
+@keyframes alertmask {
+  0%{
+    bottom:-500px
+  }
+  100%{
+    bottom:50px
+  }
+}
+.v-enter-active {
+  animation: alertmask 0.5s
+}
+.v-leave-active {
+  animation: alertmask 0.5s reverse
 }
 </style>
