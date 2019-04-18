@@ -25,12 +25,9 @@
       </div>
       <div class="advertising">
         <img src="http://img.alicdn.com/tps/i4/TB1OjZdQVzqK1RjSZFCtKbbxVXa.gif">
-        <transition name="img">
-          <div class="m-card" v-show="isShow">
-            <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1555331498598&di=72875d22df0f73b7c45fa986fba997b6&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F5667c06ab78f66d9b64b14119d40e2a1606ce70e1e73-FDbTnk_fw658">
-          </div>
-        </transition>
-
+        <div class="m-card" >
+          <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1555331498598&di=72875d22df0f73b7c45fa986fba997b6&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F5667c06ab78f66d9b64b14119d40e2a1606ce70e1e73-FDbTnk_fw658">
+        </div>
       </div>
       <div
         class="m-news"
@@ -74,7 +71,7 @@
             class="imgList"
             v-for="imgItem in item.goodss"
             :key="imgItem.goodsId"
-            @click="$router.push({path: '/goodsinfo', query:{id: imgItem.goodsId}})"
+            @click="$router.push({name: 'gogoods', query:{id: imgItem.goodsId}})"
           >
             <img :src="imgItem.goodsImgUrl">
             <div class="item-main">
@@ -96,7 +93,6 @@
 </template>
 <script>
 import axios from "axios";
-import { win32 } from "path";
 export default {
   data() {
     return {
@@ -108,9 +104,7 @@ export default {
       currentPage: 0,
       itemsPerPage: 1,
       totalItems: 0,
-      isShow:true,
-      sFlag: false,
-      timer: null
+      sFlag: false
     }
   },
   computed: {
@@ -121,7 +115,6 @@ export default {
   },
   mounted() {
     window.addEventListener("scroll", this.scrollTop)
-    this.imgList()
   },
   methods: {
     getBannerList() {
@@ -168,12 +161,13 @@ export default {
         this.sFlag = false
       }
     },
-    imgList () {
-      setInterval(() => {
-        this.isShow = !this.isShow
-      }, 10000);
-    },
-    goshopping() {}
+    goshopping() {
+      if (!this.$store.state.isLogin) {
+        this.$router.push('/login')
+      }else{
+
+      }
+    }
   },
   created() {
     this.getBannerList()
@@ -228,7 +222,6 @@ export default {
       }
     }
     .advertising {
-      height: 120px;
       width: 100%;
       position: relative;
       img {
@@ -237,9 +230,10 @@ export default {
       .m-card {
         position: absolute;
         width: 18.67%;
-        height: 70px;
+        height: 56.67%;
         left: 10.13%;
         top: 23%;
+        background-size: cover;
         img {
           position: absolute;
           display: block;

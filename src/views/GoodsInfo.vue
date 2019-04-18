@@ -7,7 +7,7 @@
       </div>
       <div>
         <a class="iconfont icon-liebiao g_icon_ba" :class='{g_icon_scrolldown:iscolor}'></a>
-        <a class="iconfont icon-gouwuche g_icon_ba" :class='{g_icon_scrolldown:iscolor}'></a>
+        <a class="iconfont icon-gouwuche g_icon_ba" :class='{g_icon_scrolldown:iscolor}' @click="$router.push('/shoppingTrolley')"></a>
       </div>
     </div>
     <div id="g_cont" ref='g_cont'>
@@ -92,7 +92,7 @@
     <van-goods-action id="g_footer">
       <van-goods-action-mini-btn icon="shop-collect-o" text="店铺"/>
       <van-goods-action-mini-btn icon="star-o" text="收藏"/>
-      <van-goods-action-big-btn text="加入购物车"/>
+      <van-goods-action-big-btn text="加入购物车" @click="goshopping"/>
     </van-goods-action>
   </div>
 </template>
@@ -113,6 +113,9 @@ export default {
   },
   mounted () {
     this.isScroll()
+  },
+  created () {
+
     this.Oflag = Object.getOwnPropertyNames(this.$route.query).length
     if(this.Oflag === 1){
       this.getGoods()
@@ -162,13 +165,11 @@ export default {
     },
     getGoods () {
       Axios.get('/tmData/likeGoods.json').then(res => {
-         console.log(res)
         if(res.statusText.toLowerCase() === 'ok'){
           let data = res.data
           for (var key in data) {
-
             for(var i in data[key].goodss){
-              if(data[key].goodss[i].goodsId === this.$route.query.id){
+              if(data[key].goodss[i].goodsId == this.$route.query.id){
                 this.gData = data[key].goodss[i]
               }
             }
@@ -177,6 +178,21 @@ export default {
           console.log('获取失败')
         }
       })
+    },
+    goshopping() {
+      console.log(this.gData)
+      if (!this.$store.state.isLogin) {
+        this.$router.push('/login')
+      }else{
+        if(this.Oflag === 1){
+          let shoppingId = this.$route.query.id
+          this.$store.commit({type:'pushShopping', shoppingId:shoppingId, num:1})
+        }else{
+          let shoppingId = this.$route.query.nid
+          let shoppingNid = this.$route.query.id
+          this.$store.commit({type:'pushShopping', shoppingId:shoppingId,shoppingNid:shoppingNid, num:1})
+        }
+      }
     }
   }
 };

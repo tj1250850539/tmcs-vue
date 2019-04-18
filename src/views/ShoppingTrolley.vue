@@ -12,7 +12,7 @@
       <span>当前城市：深圳</span>
     </div>
     <div class="main">
-      <div class="prompt-empty" v-if="shopping === ''">
+      <div class="prompt-empty" v-if="shoppingFlag">
         <span></span>
         <i class="iconfont icon-gouwuche"></i>
         <span></span>
@@ -23,32 +23,19 @@
         <a href="/">开始购物</a>
       </div>
       <div class="shoppingList" v-else>
-        <div class="list clearfix">
-          <van-checkbox v-model="checked" checked-color="red"></van-checkbox>
+        <div class="list clearfix"  v-for='(item,index) in shoppingTrolleyList' :key='index'>
+          <!-- <van-checkbox @click='fn2($event,index)'></van-checkbox> -->
+          <div class="list-left">
+            <span class="iconfont icon-right" :class="{bckred:fn2(index)}" @click="fn3(index)"></span>
+          </div>
           <van-card
-            num="2"
-            price="2.00"
-            title="盼盼铜锣烧红豆味1kg 早餐整箱 西式蛋糕点手撕面包休闲食品"
-            thumb="//img.alicdn.com/bao/uploaded/i1/725677994/O1CN01vKZKIT28vIfOZlSni_!!0-item_pic.jpg_sum.jpg"
+            :num="item.num"
+            :price="item.price"
+            :title="item.name"
+            :thumb="item.url"
           >
             <div slot="footer">
-              <van-stepper v-model="Index"/>
-              <van-button size="mini">
-                <i class="iconfont icon-dustbin_icon"></i>
-              </van-button>
-            </div>
-          </van-card>
-        </div>
-        <div class="list clearfix">
-          <van-checkbox v-model="checked" checked-color="red"></van-checkbox>
-          <van-card
-            num="2"
-            price="2.00"
-            title="盼盼铜锣烧红豆味1kg 早餐整箱 西式蛋糕点手撕面包休闲食品"
-            thumb="//img.alicdn.com/bao/uploaded/i1/725677994/O1CN01vKZKIT28vIfOZlSni_!!0-item_pic.jpg_sum.jpg"
-          >
-            <div slot="footer">
-              <van-stepper v-model="Index"/>
+              <van-stepper @change="fn1($event,index)"/>
               <van-button size="mini">
                 <i class="iconfont icon-dustbin_icon"></i>
               </van-button>
@@ -57,7 +44,7 @@
         </div>
         <div class="m-footer">
           <van-submit-bar :price="3050" button-text="提交订单" @submit="onSubmit">
-            <van-checkbox v-model="checkeds">
+            <van-checkbox v-model="checked">
               <p>总重<span>342</span>kg</p>
               <p>总价<span>$342</span></p>
             </van-checkbox>
@@ -69,24 +56,141 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
       value: "",
-      shopping: "a",
-      checkeds: false,
+      shoppingFlag: false,
       checked: false,
-      Index: 1
-    };
+      shoppingList: [],
+      commodityList: {},
+      likeGoodsList: [],
+      shoppingTrolleyList:[],
+      checkeds0: false,
+      checkeds1: false,
+      checkeds2: false,
+      checkeds3: false,
+      checkeds4: false,
+      checkeds5: false,
+      checkeds6: false,
+      checkeds7: false,
+      checkeds8: false,
+      checkeds9: false,
+      checkeds10: false,
+      Index0: 1,
+      Index1: 1,
+      Index2: 1,
+      Index3: 1,
+      Index4: 1,
+      Index5: 1,
+      Index6: 1,
+      Index7: 1,
+      Index8: 1,
+      Index9: 1,
+      Index10: 1,
+    }
   },
   methods: {
     backout(e) {
       this.$router.push('/index')
       e.preventDefault()
     },
-    onSubmit() {}
+    getcommodityList () {
+      axios.get('/tmData/commodityList.json').then(res => {
+        if (res.data.ret === '调用成功') {
+          this.commodityList = res.data.data
+        }else{
+          alert('数据获取失败')
+        }
+      })
+    },
+    getlikeGoodsList () {
+
+      axios.get('/tmData/likeGoods.json').then(res => {
+        if (res.statusText.toLowerCase() === 'ok') {
+          this.likeGoodsList = res.data
+        }else{
+          alert('数据获取失败')
+        }
+      })
+    },
+    onSubmit() {},
+    getShoppingList () {
+      let shopping = this.$store.state.shoppingList.goods
+      var likeGoodsList = this.likeGoodsList
+      var commodityList = this.commodityList
+      for (let i = 0; i < shopping.length; i++) {
+        if(shopping[i].nid){
+          for(let q in commodityList){
+            if(q == shopping[i].nid){
+              for(let w in commodityList[q].srp){
+                for(let e in commodityList[q].srp[w]){
+                  if(shopping[i].id == commodityList[q].srp[w].nid){
+                    var url = commodityList[q].srp[w].img
+                    var name = commodityList[q].srp[w].title
+                    var price = commodityList[q].srp[w].price
+                    this.shoppingTrolleyList.push({ id:shopping[i].id, url: url,name: name,price: price,num:shopping[i].num })
+                    break
+                  }
+                }
+              }
+            }
+
+          }
+        }else{
+          for(let j in likeGoodsList){
+            for(let t in likeGoodsList[j].goodss){
+              for(let k in likeGoodsList[j].goodss[t]){
+                if(shopping[i].id == likeGoodsList[j].goodss[t].goodsId){
+                  var url = likeGoodsList[j].goodss[t].goodsImgUrl
+                  var name = likeGoodsList[j].goodss[t].goodsName
+                  var price = likeGoodsList[j].goodss[t].goodsMoney
+                  this.shoppingTrolleyList.push({ id:shopping[i].id, url: url,name: name,price: price,num:shopping[i].num })
+                  break
+                }
+              }
+            }
+          }
+        }
+
+
+      }
+    },
+    fn1 (e,i) {
+      var Index = 'Index'+i
+      this[Index] = e
+    },
+    fn2 (i) {
+      var index = 'checkeds' + i
+      return this[index]
+      console.log(index)
+    },
+    fn3 (i) {
+      var index = 'checkeds' + i
+      this[index] = !this[index]
+      console.log(index,this[index])
+    }
+  },
+  watch: {
+    commodityList: function(newd,okd) {
+      if(this.shoppingFlag === false){
+        this.getShoppingList()
+      }
+
+    }
+  },
+  created () {
+    this.getlikeGoodsList()
+    this.getcommodityList()
+    let goods = this.$store.state.loginName + 'goods'
+    if (this.$store.state.shoppingList.goods) {
+      this.shoppingFlag = false
+    }else{
+      this.shoppingFlag = true
+    }
   }
-};
+}
 </script>
 
 <style lang="less">
@@ -185,6 +289,28 @@ export default {
       .list {
         padding: 10px 0;
         border-bottom: 1px solid #ddd;
+        .list-left{
+          float: left;
+          width: 10%;
+          height: 100%;
+          text-align: center;
+          margin-top: 10%;
+          margin-left: 3%;
+          span{
+            display: inline-block;
+            text-align: center;
+            line-height: 30px;
+            font-size: 22px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-weight: 700;
+            border: 1px solid #7c849a;
+            color: #fff;
+            background-color: #fff;
+            margin: auto;
+          }
+        }
         .van-checkbox {
           float: left;
           width: 10%;
@@ -201,8 +327,8 @@ export default {
           }
         }
         .van-card {
-          float: left;
-          width: 90%;
+          float: right;
+          width: 87%;
           margin-top: 0;
           background-color: #fff;
           position: relative;
@@ -218,7 +344,7 @@ export default {
             .van-stepper {
               position: absolute;
               left: 10px;
-              top: -5px;
+              top: -4px;
             }
             .van-button {
               border: 0;
@@ -261,10 +387,17 @@ export default {
           line-height: 0.3rem;
           font-size: 0.2rem;
           width: 0.3rem;
+          margin-top: -3px;
         }
       }
     }
   }
+}
+.van-card__title{
+  padding-bottom: 0 !important;
+}
+.bckred{
+  background-color: red !important;
 }
 </style>
 

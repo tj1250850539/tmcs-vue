@@ -6,12 +6,15 @@
       :desc="'月销量'+item.sold"
       :title="item.title"
       :thumb="item.img" @touchstart='gogoods(item.nid)'/>
-      <i class="iconfont icon-gouwuche"></i>
+      <i class="iconfont icon-gouwuche" @click="goshopping"></i>
     </div>
     <div class="tm-footer">
-      <van-tabbar v-model="active">
+      <!-- <van-tabbar v-model="active">
         <van-tabbar-item icon="shopping-cart-o" :info="shoppingNum"></van-tabbar-item>
-      </van-tabbar>
+      </van-tabbar> -->
+      <div class="f-icon">
+        <i class="iconfont icon-gouwuche" @click="$router.push('/shoppingTrolley')"></i>
+      </div>
     </div>
   </div>
 </template>
@@ -67,6 +70,13 @@ export default {
           nid: nid
         }
       })
+    },
+    goshopping() {
+      if (!this.$store.state.isLogin) {
+        this.$router.push('/login')
+      }else{
+
+      }
     }
   },
   created () {
@@ -95,6 +105,7 @@ export default {
     text-align: center;
     font-size: 22px;
     color: #fff;
+    margin-top: -10px;
   }
 }
 .ShoopingList:nth-last-of-type(1){
@@ -111,14 +122,13 @@ export default {
   margin: 0;
 }
 .tm-footer{
-  .van-tabbar{
-    height: 60px;
-  }
-  .van-tabbar-item{
-    //height: 60px !important;
-    background-color: #f0f0f0;
-  }
-  .van-tabbar-item__icon{
+  position: fixed;
+  width: 100%;
+  height: 50px;
+  bottom: 0;
+  left: 0;
+  background-color: #f0f0f0;
+  .f-icon{
     width: 40px;
     height: 40px;
     border: 3px solid #fff;
@@ -134,5 +144,27 @@ export default {
       color: #fff;
     }
   }
+  .van-card__title{
+    padding-bottom: 0;
+  }
+  // .van-tabbar{
+  //   height: 60px;
+  // }
+  // .van-tabbar-item{
+  //   //height: 60px !important;
+  //   background-color: #f0f0f0;
+  // }
+  // .van-tabbar-item__icon{
+  //   width: 40px;
+  //   height: 40px;
+  //   border: 3px solid #fff;
+  //   border-radius: 50px;
+  //   font-size: 13px;
+  //   line-height: 42px;
+  //   text-align: center;
+  //   background: #e8374d;
+  //   margin: auto;
+
+
 }
 </style>

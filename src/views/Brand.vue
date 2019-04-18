@@ -3,7 +3,7 @@
     <div id="br_title" ref='br_title' :class='{scroll_he:iscolor}'>
         <a class="iconfont icon-fangdajing tit_icon" :class='{scroll_a:iscolor}'></a>
         <h1 class='top_tit' :class='{scroll_h2:iscolor}'>品牌闪购</h1>
-        <a class="iconfont icon-gouwuche tit_icon" :class='{scroll_a:iscolor}'></a>
+        <a class="iconfont icon-gouwuche tit_icon" :class='{scroll_a:iscolor}' @click="$router.push('/shoppingTrolley')"></a>
     </div>
     <div id='br_header'>
       <img class='he_img' src="//img.alicdn.com/tfscom/TB1PaOMKXOWBuNjy0FiXXXFxVXa.png_760x760Q50s50.jpg_.webp" alt="">

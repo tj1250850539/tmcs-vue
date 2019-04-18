@@ -3,7 +3,7 @@
     <div id="pe_title" ref='pe_title' :class='{scroll_he:iscolor}'>
         <a class="iconfont icon-fangdajing tit_icon" :class='{scroll_a:iscolor}'></a>
         <h1 class='top_tit' :class='{scroll_h2:iscolor}'>权益中心</h1>
-        <a class="iconfont icon-gouwuche tit_icon" :class='{scroll_a:iscolor}'></a>
+        <a class="iconfont icon-gouwuche tit_icon" :class='{scroll_a:iscolor}' @click="$router.push('/shoppingTrolley')"></a>
     </div>
     <div id='pe_header'>
       <h1 class='header_user'>

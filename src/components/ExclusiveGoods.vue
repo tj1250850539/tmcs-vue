@@ -9,7 +9,7 @@
                 <p class='price_flex'><span class='font_s'>¥{{ itemActPriceStr }}</span><i class='goods_d_hint'>折扣价</i></p>
                 <p class='c_999'>超市价:¥456</p>
               </div>
-              <i class='iconfont icon-gouwuche goods_info_vehicle'></i>
+              <i class='iconfont icon-gouwuche goods_info_vehicle' @click="goshopping"></i>
             </div>
           </div>
           <div class='goods_info_bottom'>
@@ -34,6 +34,15 @@ export default {
     },
     benefitPoint:{
       type:String
+    }
+  },
+  methods: {
+    goshopping () {
+      if (!this.$store.state.isLogin) {
+        this.$router.push('/login')
+      }else{
+
+      }
     }
   }
 }

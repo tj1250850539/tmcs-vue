@@ -52,6 +52,7 @@ export default {
     color: #888;
     .h-left{
       float: left;
+      width: 30%;
       i{
         font-size: 20px;
         position: relative;
@@ -62,6 +63,7 @@ export default {
       }
     }
     .van-search{
+      width: 70%;
       float: right;
       height: 32px;
       background: #fff;
