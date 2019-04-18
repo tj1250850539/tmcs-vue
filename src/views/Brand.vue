@@ -11,11 +11,11 @@
         <p class='he_tit'>今日购大牌</p>
         <div class='he_out_time'>
           <span>剩余</span>
-          <span class='hour span_time'>12</span>
+          <span class='hour span_time'>{{ hours }}</span>
           <span>:</span>
-          <span class='min span_time'>32</span>
+          <span class='min span_time'>{{ min }}</span>
           <span>:</span>
-          <span class='second span_time'>58</span>
+          <span class='second span_time'>{{ conds }}</span>
         </div>
       </div>
     </div>
@@ -66,12 +66,16 @@
 <script>
 import brandgoods from '../components/BrandGoods.vue'
 import Axios from 'axios'
+import { setInterval } from 'timers';
 export default {
   data () {
     return {
       featData:{},
       contData:[],
-      iscolor:false
+      iscolor:false,
+      conds:new Date().getSeconds(),
+      min:new Date().getMinutes(),
+      hours:new Date().getHours()
     }
   },
   components: {
@@ -80,6 +84,7 @@ export default {
   mounted () {
     this.getBrandData ()
     this.isScroll()
+    this.brandOutTime()
   },
   methods: {
     isScroll(){
@@ -113,9 +118,22 @@ export default {
           console.log('获取失败')
         }
       })
+    },
+    brandOutTime (){
+      var _this = this
+      outTime ()
+      setInterval(outTime,1000)
+      function outTime () {
+        let date = new Date().getTime() //设置当前时间
+        let end = new Date('2019/4/19 22:00:00').getTime() //设置未来时间
+        let time = end-date //得到时间差
+        _this.conds = parseInt(time/1000%60)<10?'0'+ parseInt(time/1000%60): parseInt(time/1000%60)
+        _this.min = parseInt(time/1000/60%60)<10?'0'+ parseInt(time/1000/60%60): parseInt(time/1000/60%60)
+        _this.hours = parseInt(time/1000/60/60)<10?'0'+parseInt(time/1000/60/60):parseInt(time/1000/60/60)
+      }
+        // console.log(this.hours+'时'+this.min+'分'+this.conds+'秒')
     }
   },
-
 }
 </script>
 <style lang="less">

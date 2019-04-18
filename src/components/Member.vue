@@ -12,11 +12,11 @@
         <slot name="re_pwd_hint"></slot>
         <div class="lgn_pu lgn_pwd">
           <label for="" class="lgn_lab">{{ lab2 }}</label>
-          <input type="text" :placeholder="pr2">
+          <input type="text" :placeholder="pr2" v-model="userNameAndPwd">
         </div>
         <slot name="re_uname_hint"></slot>
         <div class="lgn_sub">
-          <input type="submit" :value="subtxt" style="width:100%">
+          <input type="submit" @click='fn1' :value="subtxt" style="width:100%">
         </div>
       </form>
       <slot name="a_link"></slot>
@@ -24,7 +24,16 @@
   </div>
 </template>
 <script>
+import { mapState, mapMutations } from 'vuex'
 export default {
+  data(){
+    return {
+      userNameAndPwd:''
+    }
+  },
+  methods: {
+
+  },
   props: {
     title:{
       type:String
