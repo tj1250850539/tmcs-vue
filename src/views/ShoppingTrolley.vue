@@ -36,17 +36,22 @@
           >
             <div slot="footer">
               <van-stepper @change="fn1($event,index)"/>
-              <van-button size="mini">
+              <!-- <div class="bjq">
+                <button>-</button>
+                <input type="text">
+                <button>+</button>
+              </div> -->
+              <van-button size="mini" @click="deleteShopping(index)">
                 <i class="iconfont icon-dustbin_icon"></i>
               </van-button>
             </div>
           </van-card>
         </div>
         <div class="m-footer">
-          <van-submit-bar :price="3050" button-text="提交订单" @submit="onSubmit">
-            <van-checkbox v-model="checked">
-              <p>总重<span>342</span>kg</p>
-              <p>总价<span>$342</span></p>
+          <van-submit-bar button-text="提交订单" @submit="onSubmit" label="">
+            <van-checkbox v-model="checked" @click="fn4">
+              <p>数量<span>{{ shoppingnum }}</span></p>
+              <p>总价<span>{{ totalPrice }}</span></p>
             </van-checkbox>
           </van-submit-bar>
         </div>
@@ -61,6 +66,8 @@ export default {
   data() {
     return {
       value: "",
+      totalPrice: 0,
+      shoppingnum: 0,
       shoppingFlag: false,
       checked: false,
       shoppingList: [],
@@ -78,17 +85,37 @@ export default {
       checkeds8: false,
       checkeds9: false,
       checkeds10: false,
-      Index0: 1,
-      Index1: 1,
-      Index2: 1,
-      Index3: 1,
-      Index4: 1,
-      Index5: 1,
-      Index6: 1,
-      Index7: 1,
-      Index8: 1,
-      Index9: 1,
-      Index10: 1,
+      checkeds11: false,
+      checkeds12: false,
+      checkeds13: false,
+      checkeds14: false,
+      checkeds15: false,
+      checkeds16: false,
+      checkeds17: false,
+      checkeds18: false,
+      checkeds19: false,
+      checkeds20: false,
+      Index0:1,
+      Index1:1,
+      Index2:1,
+      Index3:1,
+      Index4:1,
+      Index5:1,
+      Index6:1,
+      Index7:1,
+      Index8:1,
+      Index9:1,
+      Index10:1,
+      Index11:1,
+      Index12:1,
+      Index13:1,
+      Index14:1,
+      Index15:1,
+      Index16:1,
+      Index17:1,
+      Index18:1,
+      Index19:1,
+      Index20:1,
     }
   },
   methods: {
@@ -160,24 +187,81 @@ export default {
     fn1 (e,i) {
       var Index = 'Index'+i
       this[Index] = e
+      this.shoppingTrolleyList[i].num = e
+      this.count()
     },
     fn2 (i) {
       var index = 'checkeds' + i
       return this[index]
-      console.log(index)
     },
     fn3 (i) {
       var index = 'checkeds' + i
       this[index] = !this[index]
-      console.log(index,this[index])
+      if(this[index]){
+        this.shoppingnum = this.shoppingnum + this['Index'+i]
+        this.totalPrice = this.totalPrice + this['Index'+i] * parseFloat(this.shoppingTrolleyList[i].price)
+        this.totalPrice = Number(this.totalPrice.toFixed(2))
+      }else{
+        this.shoppingnum = this.shoppingnum - this['Index'+i]
+        this.totalPrice = this.totalPrice - this['Index'+i] * parseFloat(this.shoppingTrolleyList[i].price)
+        this.totalPrice = Number(this.totalPrice.toFixed(2))
+      }
+      this.Istrue()
+    },
+    fn4 () {
+      for(let i in this.shoppingTrolleyList){
+        this['checkeds'+i] = this.checked
+      }
+      this.count()
+    },
+    deleteShopping (i) {
+      this.$store.commit('deleteshoppingList',this.shoppingTrolleyList[i].id)
+      this.shoppingTrolleyList.splice(i,1)
+      this.count()
+    },
+    onSubmit () {
+      let j = 0
+      for(var i = 0;i < this.shoppingTrolleyList.length;i++){
+        console.log(111)
+        if(this['checkeds'+(i+j)]){
+          console.log(1111)
+          this.$store.commit('deleteshoppingList',this.shoppingTrolleyList[i].id)
+          this.shoppingTrolleyList.splice(i,1)
+          this['checkeds'+(i+j)] = false
+          i--
+          j++
+          console.log(11111)
+        }
+      }
+      this.count()
+      alert('购买成功')
+    },
+    count () {
+      this.totalPrice = 0
+      this.shoppingnum = 0
+      for(let i in this.shoppingTrolleyList){
+        if(this['checkeds'+i]){
+          this.totalPrice = this.totalPrice + this['Index'+i] * parseFloat(this.shoppingTrolleyList[i].price)
+          this.totalPrice = Number(this.totalPrice.toFixed(2))
+          this.shoppingnum = this.shoppingnum + this['Index'+i]
+        }
+      }
+    },
+    Istrue () {
+      var flag = true
+      for(let i in this.shoppingTrolleyList){
+        if(!this['checkeds'+i]){
+          flag = false
+        }
+      }
+      this.checked = flag
     }
   },
   watch: {
-    commodityList: function(newd,okd) {
+    commodityList: function(newd,old) {
       if(this.shoppingFlag === false){
         this.getShoppingList()
       }
-
     }
   },
   created () {
@@ -189,7 +273,14 @@ export default {
     }else{
       this.shoppingFlag = true
     }
-  }
+  },
+  updated() {
+    var inputs = document.getElementsByClassName('van-stepper__input')
+    for (let i in this.shoppingTrolleyList){
+      this['Index'+i] = this.shoppingTrolleyList[i].num
+      inputs[i].value = this['Index'+i]
+    }
+  },
 }
 </script>
 

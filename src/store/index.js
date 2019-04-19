@@ -8,7 +8,7 @@ const store = new Vuex.Store({
   state: {
     isLogin: true,
     loginName: 'tom',
-    shoppingList: {},
+    shoppingList: [],
     userPhone:0,
     //储存的数据是用户注册的{账号,密码,用户名}
     userAccount: [
@@ -36,7 +36,7 @@ const store = new Vuex.Store({
   //唯一能修改state 的东西
   mutations: {
     pushShopping (state,obj) {
-      let goods = state.name + 'goods'
+      let goods = state.loginName + 'goods'
       let sGoods = state.shoppingList.goods
       if(obj.shoppingNid){
         if (sGoods) {
@@ -73,6 +73,22 @@ const store = new Vuex.Store({
     },
     changeuser (state,obj){
       state.userAccount.push(obj)
+    },
+    deleteshoppingList (state,id) {
+      let goods = state.loginName + 'goods'
+      for(let i in state.shoppingList.goods){
+        if(state.shoppingList.goods[i].id == id){
+          state.shoppingList.goods.splice(i,1)
+        }
+      }
+    },
+    getshoppingList (state) {
+      let goods = state.loginName + 'goods'
+      cosole.log(localStorage.getItem(goods))
+    },
+    setshoppingList (state) {
+      let goods = state.loginName + 'goods'
+      localStorage.getItem(goods,JSON.stringify(state.shoppingList))
     }
   },
   //可以多次调用mutations的东西
