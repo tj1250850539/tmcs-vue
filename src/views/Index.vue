@@ -82,7 +82,7 @@
               <p>{{ imgItem.goodsMoney }}</p>
               <div>
                 <span>{{ imgItem.goodsSales }}</span>
-                <i class="iconfont icon-gouwuche" @click.stop="goshopping"></i>
+                <i class="iconfont icon-gouwuche" @click.stop="goshopping(imgItem.goodsId)"></i>
               </div>
             </div>
           </div>
@@ -92,11 +92,11 @@
   </div>
 </template>
 <script>
-import axios from "axios";
+import axios from 'axios'
 export default {
   data() {
     return {
-      value: "",
+      value: '',
       bannerList: [],
       promoList: [],
       socialList: [],
@@ -104,7 +104,8 @@ export default {
       currentPage: 0,
       itemsPerPage: 1,
       totalItems: 0,
-      sFlag: false
+      sFlag: false,
+      isShow: false
     }
   },
   computed: {
@@ -117,6 +118,9 @@ export default {
     window.addEventListener("scroll", this.scrollTop)
   },
   methods: {
+    showNotify() {
+      this.$notify('加入成功');
+    },
     getBannerList() {
       axios.get("/tmData/banner.json").then(res => {
         if (res.statusText.toLowerCase() === "ok") {
@@ -161,11 +165,13 @@ export default {
         this.sFlag = false
       }
     },
-    goshopping() {
+    goshopping(id) {
       if (!this.$store.state.isLogin) {
         this.$router.push('/login')
       }else{
-
+        let shoppingId = id
+        this.$store.commit({type:'pushShopping', shoppingId:shoppingId, num:1})
+        this.showNotify()
       }
     }
   },
@@ -180,6 +186,7 @@ export default {
   }
 }
 </script>
+
 <style lang="less">
 #mallPage {
   height: 100%;
@@ -379,6 +386,9 @@ export default {
       }
     }
   }
+}
+.van-popup--top{
+  top:50% !important;
 }
 .van-field__left-icon .van-icon {
   color: #1b5;

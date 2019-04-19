@@ -44,6 +44,8 @@ export default {
   },
   created() {
     // console.log(localStorage.getItem('loglevel:webpack-dev-server'))
+    let localUser = localStorage.getItem('userInfo')
+    this.$store.commit('amendLocal',localUser)
   },
   methods: {
     login (){
@@ -62,6 +64,7 @@ export default {
               this.$store.state.loginName = userObj[item].userName
               this.$store.state.loginPhone = userObj[item].userPhone
               this.$store.state.loginPwd = userObj[item].userPwd
+              this.$store.commit('getshoppingList')
               break;
             } else {
               this.hintTxt = '密码错误'

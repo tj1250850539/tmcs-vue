@@ -8,7 +8,7 @@
         <span class='val_fc'>¥</span>
         <em class='val_fc'>{{ itemPrice }}</em>
       </p>
-      <i class="iconfont icon-gouwuche gwc_ba" @click.stop="goshopping"></i>
+      <i class="iconfont icon-gouwuche gwc_ba"></i>
     </div>
   </div>
 </template>
@@ -26,15 +26,6 @@ export default {
     },
     itemImg:{
       type:String
-    }
-  },
-  methods:{
-    goshopping() {
-      if (!this.$store.state.isLogin) {
-        this.$router.push('/login')
-      }else{
-
-      }
     }
   }
 }

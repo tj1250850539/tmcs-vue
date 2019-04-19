@@ -10,7 +10,7 @@ const store = new Vuex.Store({
     loginName: '',
     loginPhone: '',
     loginPwd: '',
-    shoppingList: [],
+    shoppingList: {},
     //临时储存localStoge的用户数据
     localStrogeUser:[],
     //储存的数据是用户注册的{账号,密码,用户名}
@@ -68,6 +68,10 @@ const store = new Vuex.Store({
       state.userAccount.push(obj)
       localStorage.setItem('userInfo',JSON.stringify(state.userAccount))
     },
+    amendLocal(state,userInfo){
+      state.userAccount = []
+      state.userAccount.push(...JSON.parse(userInfo))
+    },
     deleteshoppingList (state,id) {
       let goods = state.loginName + 'goods'
       for(let i in state.shoppingList.goods){
@@ -78,16 +82,22 @@ const store = new Vuex.Store({
     },
     getshoppingList (state) {
       let goods = state.loginName + 'goods'
-      cosole.log(localStorage.getItem(goods))
+      let shoppingmsg = localStorage.getItem(goods)
+      if(shoppingmsg){
+        if(state.shoppingList.goods){
+          state.shoppingList.goods.push(...JSON.parse(shoppingmsg))
+        }else{
+          state.shoppingList.goods = JSON.parse(shoppingmsg)
+        }
+      }else{
+        console.log(shoppingmsg)
+      }
     },
     setshoppingList (state) {
       let goods = state.loginName + 'goods'
-      localStorage.getItem(goods,JSON.stringify(state.shoppingList))
-    },
-    amendLocal(state,userInfo){
-      state.userAccount = []
-      state.userAccount.push(...JSON.parse(userInfo))
+      localStorage.setItem(goods,JSON.stringify(state.shoppingList.goods))
     }
+
   },
   //可以多次调用mutations的东西
   actions: {

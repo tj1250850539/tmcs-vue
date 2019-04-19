@@ -1,13 +1,13 @@
 <template>
   <div class="Shopping">
     <div   v-if='showIsData'>
-      <div class="ShoopingList" v-for="item in shoppingList" :key='item.nid'>
+      <div class="ShoopingList" v-for="(item,index) in shoppingList" :key='index'>
         <van-card
         :price="item.price"
         :desc="'月销量'+item.sold"
         :title="item.title"
         :thumb="item.img" @touchstart='gogoods(item.nid)'/>
-        <i class="iconfont icon-gouwuche" @click="goshopping"></i>
+        <i class="iconfont icon-gouwuche" @click="goshopping(item.nid)"></i>
       </div>
     </div>
     <p v-else class='no_data_content' style='width:100%;height:100%;'>
@@ -18,6 +18,7 @@
         <van-tabbar-item icon="shopping-cart-o" :info="shoppingNum"></van-tabbar-item>
       </van-tabbar> -->
       <div class="f-icon">
+        <van-tag round type="danger" v-show="shoppingNum">{{ shoppingNum }}</van-tag>
         <i class="iconfont icon-gouwuche" @click="$router.push('/shoppingTrolley')"></i>
       </div>
     </div>
@@ -35,11 +36,14 @@ export default {
     return {
       active: 0,
       shoppingList: [],
-      shoppingNum: 1,
+      shoppingNum: 0,
       showIsData:true
     }
   },
   methods: {
+    showNotify() {
+      this.$notify('加入成功');
+    },
     compare(property){
       return function(a,b){
         var value1 = parseInt(a[property]);
@@ -81,16 +85,23 @@ export default {
         }
       })
     },
-    goshopping() {
+    goshopping (id) {
       if (!this.$store.state.isLogin) {
         this.$router.push('/login')
       }else{
-
+        let shoppingId = id
+        let shoppingNid = this.$route.params.id
+        this.$store.commit({type:'pushShopping', shoppingId:shoppingId,shoppingNid:shoppingNid, num:1})
+        this.shoppingNum = this.$store.state.shoppingList.goods.length
+        this.showNotify()
       }
     }
   },
   created () {
     this.getShoppingList()
+    if(this.$store.state.shoppingList.goods){
+      this.shoppingNum = this.$store.state.shoppingList.goods.length
+    }
   }
 }
 </script>
@@ -156,6 +167,11 @@ export default {
     text-align: center;
     background: #e8374d;
     margin: auto;
+    .van-tag{
+      position: absolute;
+      left:52%;
+      top: -5px;
+    }
     i{
       line-height: 42px;
       font-size: 26px;
@@ -165,6 +181,9 @@ export default {
   .van-card__title{
     padding-bottom: 0;
   }
+  .van-popup--top{
+  top:50% !important;
+}
   // .van-tabbar{
   //   height: 60px;
   // }

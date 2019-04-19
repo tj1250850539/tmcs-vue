@@ -142,7 +142,6 @@ export default {
         }
       })
     },
-    onSubmit() {},
     getShoppingList () {
       let shopping = this.$store.state.shoppingList.goods
       var likeGoodsList = this.likeGoodsList
@@ -230,7 +229,6 @@ export default {
           this['checkeds'+(i+j)] = false
           i--
           j++
-          console.log(11111)
         }
       }
       this.count()
@@ -281,11 +279,16 @@ export default {
       inputs[i].value = this['Index'+i]
     }
   },
+  beforeDestroy () {
+    console.log(111)
+    this.$store.commit('setshoppingList')
+  }
 }
 </script>
 
 <style lang="less">
 .shoppingTrolley {
+  padding-bottom: 50px;
   .head {
     padding: 8px 6px;
     height: 32px;

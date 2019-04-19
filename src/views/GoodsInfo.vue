@@ -156,6 +156,9 @@ export default {
     }
   },
   methods: {
+    showNotify() {
+      this.$notify('加入成功');
+    },
     numMinus(){
       if(this.shoppNum<2){
         this.shoppNum = 1
@@ -223,7 +226,6 @@ export default {
       })
     },
     goshopping() {
-      console.log(this.gData)
       if (!this.$store.state.isLogin) {
         this.$router.push('/login')
       }else{
@@ -234,6 +236,7 @@ export default {
           let shoppingId = this.$route.query.nid
           let shoppingNid = this.$route.query.id
           this.$store.commit({type:'pushShopping', shoppingId:shoppingId,shoppingNid:shoppingNid, num:this.shoppNum})
+          this.showNotify()
         }
       }
     }
@@ -512,7 +515,9 @@ export default {
   }
 
 }
-
+.van-popup--top{
+  top:50% !important;
+}
 .van-goods-action-mini-btn {
   min-width: 13%;
   color: #999;
