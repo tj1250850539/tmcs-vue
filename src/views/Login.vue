@@ -42,6 +42,9 @@ export default {
       isExist:false
     }
   },
+  created() {
+    // console.log(localStorage.getItem('loglevel:webpack-dev-server'))
+  },
   methods: {
     login (){
       let userObj = this.$store.state.userAccount
@@ -54,7 +57,11 @@ export default {
             if(this.loginPwd == userObj[item].userPwd){
               this.hintTxt = '登录成功'
               this.isShow = true
+              this.$store.state.isLogin = true
               setTimeout(() => {_this.isShow = false,_this.$router.push('/index')},500)
+              this.$store.state.loginName = userObj[item].userName
+              this.$store.state.loginPhone = userObj[item].userPhone
+              this.$store.state.loginPwd = userObj[item].userPwd
               break;
             } else {
               this.hintTxt = '密码错误'

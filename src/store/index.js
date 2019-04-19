@@ -6,26 +6,19 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   //放数据的
   state: {
-    isLogin: true,
-    loginName: 'tom',
+    isLogin: false,
+    loginName: '',
+    loginPhone: '',
+    loginPwd: '',
     shoppingList: {},
-    userPhone:0,
+    //临时储存localStoge的用户数据
+    localStrogeUser:[],
     //储存的数据是用户注册的{账号,密码,用户名}
     userAccount: [
       {
-        userPhone:123,
+        userPhone:'root',
         userName:'root',
         userPwd:'root'
-      },
-      {
-        userPhone:789,
-        userName:'root2',
-        userPwd:'root2'
-      },
-      {
-        userPhone:15909497267,
-        userName:'root3',
-        userPwd:'root3'
       }
     ],
   },
@@ -42,7 +35,7 @@ const store = new Vuex.Store({
         if (sGoods) {
           for(var i = 0; i < sGoods.length; i++) {
             if (sGoods[i].id === obj.shoppingId && sGoods[i].nid === obj.shoppingNid) {
-              sGoods[i].num++
+              sGoods[i].num += obj.num
               break
             }
           }
@@ -56,7 +49,7 @@ const store = new Vuex.Store({
         if (sGoods) {
           for(var i = 0; i < sGoods.length; i++) {
             if (sGoods[i].id === obj.shoppingId) {
-              sGoods[i].num++
+              sGoods[i].num += obj.num
               break
             }
           }
@@ -73,6 +66,11 @@ const store = new Vuex.Store({
     },
     changeuser (state,obj){
       state.userAccount.push(obj)
+      localStorage.setItem('userInfo',JSON.stringify(state.userAccount))
+    },
+    amendLocal(state,userInfo){
+      state.userAccount = []
+      state.userAccount.push(...JSON.parse(userInfo))
     }
   },
   //可以多次调用mutations的东西

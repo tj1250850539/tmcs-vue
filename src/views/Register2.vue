@@ -15,7 +15,7 @@
           <input type="text" placeholder="5-25个字符" v-model='userName'>
           <span style='line-height:21px;color:#999' v-show='NameRegOk'>格式错误</span>
         </div>
-        <p class='hint_txt'>5-25个字符.推荐使用中文.请勿包括姓名/身份证/银行卡等隐私信息,可用于登录或找回密码</p>
+        <p class='hint_txt'>6-25个字符.推荐使用中文.请勿包括姓名/身份证/银行卡等隐私信息,可用于登录或找回密码</p>
         <div class="lgn_sub">
           <input type="submit" value="注 册" style="width:100%" @touchstart='register'>
         </div>
@@ -58,7 +58,7 @@ export default {
       }
     },
     userName: function(newUserName,oldUserName){
-      let userPwdReg = /^([\u4e00-\u9fa5]|\w){5,25}$/
+      let userPwdReg = /^([\u4e00-\u9fa5]|\w){3,12}$/
       if(userPwdReg.test(newUserName)){
         this.NameRegOk = false
         this.isLoginPath = true
@@ -70,14 +70,14 @@ export default {
   },
   methods: {
     register (){
-      this.$store.commit({
-        type: 'changeuser',
-        userPhone: this.$route.params.phone,
-        userName: this.userName,
-        userPwd: this.userPwd
-      })
       let _this = this
       if(this.isLoginPath){ //因为当用户输入符合正则时,PwdRegOk和NameRegOk都是false,所以取反
+        this.$store.commit({
+          type: 'changeuser',
+          userPhone: this.$route.params.phone,
+          userName: this.userName,
+          userPwd: this.userPwd
+        })
         this.hintTxt = '跳转至登录...'
         this.isShow = true
         setTimeout(()=>{_this.$router.replace('/login'),_this.isShow = false},1000)

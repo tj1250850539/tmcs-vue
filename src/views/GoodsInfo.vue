@@ -72,7 +72,7 @@
         </div>
       </div>
       <div class='g_cont_norms'>
-        <div class='norms_select norms_comm'>
+        <div class='norms_select norms_comm'  @click='alertFlag = true'>
           <div class='norms_info'>
             <span class='c_999' ref='getel'>选择</span>
             <p>配送至罗湖区,请选择分类</p>
@@ -90,27 +90,44 @@
       <p v-for='item in 10' :key='item' class='g_cont_p'>{{ item }}.{{ gData.title }}</p>
     </div>
     <van-goods-action id="g_footer">
-      <van-goods-action-mini-btn icon="shop-collect-o" text="店铺"/>
-      <van-goods-action-mini-btn icon="star-o" text="收藏"/>
+      <van-goods-action-mini-btn icon="shop-collect-o" text="店铺" v-show='!alertFlag'/>
+      <van-goods-action-mini-btn icon="star-o" text="收藏"  v-show='!alertFlag'/>
       <van-goods-action-big-btn text="加入购物车" @click="goshopping"/>
     </van-goods-action>
-    <transition>
-      <div id='alert_mask' v-show='flag'>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
+    <transition name='alert'>
+      <div id='g_alert' v-show='alertFlag'>
+        <div class='g_alert_img'>
+          <img :src=" Oflag === 1 ? gData.goodsImgUrl :gData.img" alt="">
+        </div>
+        <div class='alert_top_money'>
+          <div>
+            <p class='top_money'>¥{{ Oflag === 1 ? gData.goodsMoney : gData.price }}</p>
+            <p style='font-size:12px;'>{{ Oflag === 1 ? gData.goodsName : gData.title }}</p>
+            <p>库存<em style='font-size:16px;margin-left:5px;'>∞</em></p>
+          </div>
+
+          <i @click='alertFlag = false'>×</i>
+        </div>
+        <p style='line-height:50px;color:#333;padding:0 20px;'>
+          请选择配送区域(配送地可能会影响库存)
+          <span style='float:right;'>></span>
+        </p>
+        <div class='g_alert_num'>
+          <p>购买数量</p>
+          <div class='num_button'>
+            <button @click="numMinus">-</button>
+            <span>{{ shoppNum }}</span>
+            <button @click='numAdd'>+</button>
+          </div>
+        </div>
       </div>
     </transition>
+    <transition name='mask'>
+      <div id='g_mask' v-show='alertFlag' @click='alertFlag=false'></div>
+    </transition>
+
   </div>
 </template>
-
-
 <script>
 import Axios from 'axios'
 import { setTimeout } from 'timers';
@@ -122,7 +139,8 @@ export default {
       iscolor:false,
       gData:{},
       Oflag: 1,
-      flag: false
+      alertFlag: false,
+      shoppNum:1
     }
   },
   mounted () {
@@ -138,6 +156,17 @@ export default {
     }
   },
   methods: {
+    numMinus(){
+      if(this.shoppNum<2){
+        this.shoppNum = 1
+      } else {
+        this.shoppNum--
+      }
+
+    },
+    numAdd(){
+      this.shoppNum++
+    },
     isScroll(){
       this.elGCont = this.$refs.g_cont
       this.elGHeader = this.$refs.g_header
@@ -200,11 +229,11 @@ export default {
       }else{
         if(this.Oflag === 1){
           let shoppingId = this.$route.query.id
-          this.$store.commit({type:'pushShopping', shoppingId:shoppingId, num:1})
+          this.$store.commit({type:'pushShopping', shoppingId:shoppingId, num:this.shoppNum})
         }else{
           let shoppingId = this.$route.query.nid
           let shoppingNid = this.$route.query.id
-          this.$store.commit({type:'pushShopping', shoppingId:shoppingId,shoppingNid:shoppingNid, num:1})
+          this.$store.commit({type:'pushShopping', shoppingId:shoppingId,shoppingNid:shoppingNid, num:this.shoppNum})
         }
       }
     }
@@ -226,15 +255,106 @@ export default {
 }
 #g_box{
   overflow:hidden;
-  #alert_mask{
+  #g_alert{
     position:absolute;
     bottom:50px;
     width: 100%;
     height:auto;
     // min-height:300px;
-    padding:50px 0;
+    padding:0 0 50px;
     background:#fff;
+    // padding-bottom:300px;
     z-index:100;
+    .g_alert_img{
+      position:absolute;
+      width:120px;
+      height:120px;
+      top:-25px;
+      border-radius:5px;
+      left:20px;
+      background:#fff;
+      border:1px solid #eee;
+      img{
+        width:100%;
+        border-radius:5px;
+        padding:2px;
+        box-sizing:border-box;
+      }
+    }
+    .alert_top_money {
+      padding-left:155px;
+      padding-top:30px;
+      padding:30px 0 50px 155px;
+      border-bottom:1px solid #eee;
+      height:50px;
+      display:flex;
+      justify-content: space-between;
+      padding-right:20px;
+      // align-items: center;
+      font-size:14px;
+      color:#999;
+      .top_money{
+        color:#FF0036;
+        font-size:18px;
+      }
+      i{
+        // margin-top:-20px;
+        display:block;
+        width:22px;
+        height:22px;
+        line-height:22px;
+        text-align:center;
+        font-size:20px;
+        border-radius:50%;
+        border:1px solid #000;
+      }
+    }
+    .g_alert_num{
+      color:#999;
+      padding:20px 20px;
+      border-bottom:1px solid #eee;
+      border-top:1px solid #eee;
+      display:flex;
+      justify-content: space-between;
+      align-items: center;
+      .num_button{
+        display:flex;
+        align-items: center;
+        button{
+          border:none;
+          background:#eee;
+          color:#000;
+          width:30px;
+          font-size:24px;
+          font-weight: 800;
+          line-height:30px;
+          text-align:center;
+          height:30px;
+        }
+        span{
+          width:30px;
+          height:30px;
+          font-size:14px;
+          font-weight: 800;
+          line-height:30px;
+          color:#000;
+          text-align:center;
+          margin:0 2px;
+          background:#eee;
+          display:inline-block;
+        }
+      }
+    }
+  }
+  #g_mask{
+    background:rgba(0,0,0,.4);
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    margin:auto;
+    z-index: 99;
   }
   #g_footer{
     z-index:101;
@@ -427,10 +547,24 @@ export default {
     bottom:50px
   }
 }
-.v-enter-active {
+@keyframes showmask {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+.alert-enter-active {
   animation: alertmask 0.5s
 }
-.v-leave-active {
+.alert-leave-active {
   animation: alertmask 0.5s reverse
+}
+.mask-enter-active {
+  animation: showmask 0.5s
+}
+.mask-leave-active {
+  animation: showmask 0.5s reverse
 }
 </style>
