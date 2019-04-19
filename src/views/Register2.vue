@@ -40,7 +40,7 @@ export default {
       userPwd: '',
       userName:'',
       hintTxt: '',
-      isShow:false
+      isShow:false,
     }
   },
   watch: {
@@ -69,7 +69,7 @@ export default {
     }
   },
   methods: {
-    register (){
+    register (event){
       let _this = this
       if(this.isLoginPath){ //因为当用户输入符合正则时,PwdRegOk和NameRegOk都是false,所以取反
         this.$store.commit({
@@ -80,7 +80,7 @@ export default {
         })
         this.hintTxt = '跳转至登录...'
         this.isShow = true
-        setTimeout(()=>{_this.$router.replace('/login'),_this.isShow = false},1000)
+        setTimeout(()=>{_this.$router.replace('/login'),_this.isShow = false},500)
 
       } else {
         this.hintTxt = '注册失败!'

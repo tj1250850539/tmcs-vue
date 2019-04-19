@@ -43,6 +43,9 @@ export default {
     }
   },
   created() {
+    //获取localStroge中的userInfo数据,存到vuex中
+    let localUser = localStorage.getItem('userInfo')
+    this.$store.commit('amendLocal',localUser)
     // console.log(localStorage.getItem('loglevel:webpack-dev-server'))
   },
   methods: {
