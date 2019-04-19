@@ -42,7 +42,10 @@ export default {
   },
   methods: {
     showNotify() {
-      this.$notify('加入成功');
+      this.$notify({
+        message: ('加入成功'),
+        duration: 700,
+      })
     },
     compare(property){
       return function(a,b){

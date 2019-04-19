@@ -40,6 +40,7 @@ export default new VueRouter({
           next()
         }
       }
-    }
+    },
+    { path:'*', redirect: '/index' }
   ]
 })

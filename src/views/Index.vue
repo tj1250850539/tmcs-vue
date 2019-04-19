@@ -105,7 +105,6 @@ export default {
       itemsPerPage: 1,
       totalItems: 0,
       sFlag: false,
-      isShow: false
     }
   },
   computed: {
@@ -119,7 +118,10 @@ export default {
   },
   methods: {
     showNotify() {
-      this.$notify('加入成功');
+      this.$notify({
+        message: ('加入成功'),
+        duration: 700,
+      })
     },
     getBannerList() {
       axios.get("/tmData/banner.json").then(res => {

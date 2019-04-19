@@ -34,32 +34,32 @@ export default {
     return {
       checked: false,
       itype: 'password',
-      PwdRegOk:false, //密码是否符合正则
-      NameRegOk:false, //昵称是否符合正则
-      isLoginPath:false, //是否允许跳转
+      PwdRegOk: false, //密码是否符合正则
+      NameRegOk: false, //昵称是否符合正则
+      isLoginPath: false, //是否允许跳转
       userPwd: '',
-      userName:'',
+      userName: '',
       hintTxt: '',
-      isShow:false
+      isShow: false,
     }
   },
   watch: {
-    checked:function(newItype,oldItype){
-      newItype?this.itype='text':this.itype='password'
+    checked:function (newItype,oldItype) {
+      newItype ? this.itype = 'text' : this.itype = 'password'
     },
-    userPwd: function(newUserPwd,olduserName){
+    userPwd: function (newUserPwd, olduserName) {
       let userPwdReg = /^\w{6,20}$/
-      if(userPwdReg.test(newUserPwd)){
+      if (userPwdReg.test(newUserPwd)) {
         this.PwdRegOk = false
         this.isLoginPath = true
       } else {
-        this.PwdRegOk= true
+        this.PwdRegOk = true
         this.isLoginPath = false
       }
     },
-    userName: function(newUserName,oldUserName){
+    userName: function (newUserName, oldUserName) {
       let userPwdReg = /^([\u4e00-\u9fa5]|\w){3,12}$/
-      if(userPwdReg.test(newUserName)){
+      if (userPwdReg.test(newUserName)) {
         this.NameRegOk = false
         this.isLoginPath = true
       } else {
@@ -69,9 +69,9 @@ export default {
     }
   },
   methods: {
-    register (){
+    register (event){
       let _this = this
-      if(this.isLoginPath){ //因为当用户输入符合正则时,PwdRegOk和NameRegOk都是false,所以取反
+      if (this.isLoginPath) {//因为当用户输入符合正则时,PwdRegOk和NameRegOk都是false,所以取反
         this.$store.commit({
           type: 'changeuser',
           userPhone: this.$route.params.phone,
@@ -80,23 +80,23 @@ export default {
         })
         this.hintTxt = '跳转至登录...'
         this.isShow = true
-        setTimeout(()=>{_this.$router.replace('/login'),_this.isShow = false},1000)
-
+        setTimeout(() => {
+          _this.$router.replace('/login')
+          _this.isShow = false
+        }, 500)
       } else {
         this.hintTxt = '注册失败!'
         this.isShow = true
-
-        setTimeout(()=>{_this.isShow = false},1000)
+        setTimeout(() => { _this.isShow = false }, 1000)
       }
-
     },
     switch () {
-      this.checked?this.itype='text':this.itype = 'password'
+      this.checked ? this.itype = 'text' : this.itype = 'password'
     }
   },
   mounted () {
     this.switch()
-  },
+  }
 }
 </script>
 <style lang="less">

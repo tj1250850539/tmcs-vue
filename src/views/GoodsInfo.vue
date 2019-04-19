@@ -36,7 +36,7 @@
           <span class='c_201'>促销</span>
           <div>
             <p>老板带着小姨子跑路了,所有商品挥泪大甩卖</p>
-            <p>原价100多,200多,300多的产品现在统统60块!!</p>
+            <p>原价100多,200多,300多的产品现在统统五毛八!!</p>
           </div>
         </div>
         <i class='fs24'>></i>
@@ -125,12 +125,10 @@
     <transition name='mask'>
       <div id='g_mask' v-show='alertFlag' @click='alertFlag=false'></div>
     </transition>
-
   </div>
 </template>
 <script>
 import Axios from 'axios'
-import { setTimeout } from 'timers';
 export default {
   data () {
     return {
@@ -140,7 +138,8 @@ export default {
       gData:{},
       Oflag: 1,
       alertFlag: false,
-      shoppNum:1
+      shoppNum:1,
+      isShow:false
     }
   },
   mounted () {
@@ -157,7 +156,10 @@ export default {
   },
   methods: {
     showNotify() {
-      this.$notify('加入成功');
+      this.$notify({
+        message: ('加入成功'),
+        duration: 700,
+      })
     },
     numMinus(){
       if(this.shoppNum<2){
