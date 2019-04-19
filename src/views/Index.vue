@@ -104,7 +104,7 @@ export default {
       currentPage: 0,
       itemsPerPage: 1,
       totalItems: 0,
-      sFlag: false
+      sFlag: false,
     }
   },
   computed: {
@@ -165,7 +165,6 @@ export default {
       if (!this.$store.state.isLogin) {
         this.$router.push('/login')
       }else{
-
       }
     }
   },

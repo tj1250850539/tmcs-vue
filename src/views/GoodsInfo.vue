@@ -36,7 +36,7 @@
           <span class='c_201'>促销</span>
           <div>
             <p>老板带着小姨子跑路了,所有商品挥泪大甩卖</p>
-            <p>原价100多,200多,300多的产品现在统统60块!!</p>
+            <p>原价100多,200多,300多的产品现在统统五毛八!!</p>
           </div>
         </div>
         <i class='fs24'>></i>
@@ -125,13 +125,16 @@
     <transition name='mask'>
       <div id='g_mask' v-show='alertFlag' @click='alertFlag=false'></div>
     </transition>
-
+    <toast :isShow='isShow' hintTxt='加入成功' hintW='100px' hintH='50px'></toast>
   </div>
 </template>
 <script>
 import Axios from 'axios'
-import { setTimeout } from 'timers';
+import toast from '../components/toast'
 export default {
+  components: {
+    toast
+  },
   data () {
     return {
       elGCont:null,
@@ -140,7 +143,8 @@ export default {
       gData:{},
       Oflag: 1,
       alertFlag: false,
-      shoppNum:1
+      shoppNum:1,
+      isShow:false
     }
   },
   mounted () {
@@ -223,6 +227,9 @@ export default {
       })
     },
     goshopping() {
+      let _this = this
+      this.isShow = true
+      setTimeout(() => { _this.isShow = false },1000)
       console.log(this.gData)
       if (!this.$store.state.isLogin) {
         this.$router.push('/login')
