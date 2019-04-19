@@ -35,57 +35,59 @@ export default {
   },
   data () {
     return {
-      isShow:false,
-      hintTxt:'',
+      isShow: false,
+      hintTxt: '',
       loginPhone: '',
       loginPwd: '',
-      isExist:false
+      isExist: false
     }
   },
-  created() {
+  created () {
     //获取localStroge中的userInfo数据,存到vuex中
     let localUser = localStorage.getItem('userInfo')
-    this.$store.commit('amendLocal',localUser)
-    // console.log(localStorage.getItem('loglevel:webpack-dev-server'))
+    if (localUser) {
+      this.$store.commit('amendLocal', localUser)
+    }
+    //console.log(localStorage.getItem('loglevel:webpack-dev-server'))
   },
   methods: {
-    login (){
+    login () {
       let userObj = this.$store.state.userAccount
       // console.log(this.$store.state.userAccount) //拿到vuex中储存的用户账号对象
       let _this = this
-      for(let item in userObj){
-        if(this.loginPhone == userObj[item].userPhone || this.loginPhone == userObj[item].userName){
-          this.isExist = true //判断账号是否存在
-          for(let userInfo in userObj[item]){
-            if(this.loginPwd == userObj[item].userPwd){
+      for (let item in userObj) {
+        if (this.loginPhone == userObj[item].userPhone || this.loginPhone == userObj[item].userName) {
+          this.isExist = true//判断账号是否存在
+          for (let userInfo in userObj[item]) {
+            if (this.loginPwd == userObj[item].userPwd) {
               this.hintTxt = '登录成功'
               this.isShow = true
               this.$store.state.isLogin = true
-              setTimeout(() => {_this.isShow = false,_this.$router.push('/index')},500)
+              setTimeout(() => { _this.isShow = false, _this.$router.push('/index') }, 500)
               this.$store.state.loginName = userObj[item].userName
               this.$store.state.loginPhone = userObj[item].userPhone
               this.$store.state.loginPwd = userObj[item].userPwd
-              break;
+              break
             } else {
               this.hintTxt = '密码错误'
               this.isShow = true
-              setTimeout(() => {_this.isShow = false},1000)
-              break;
+              setTimeout(() => { _this.isShow = false }, 1000)
+              break
             }
           }
-          break;
+          break
         } else {
           this.isExist = false
         }
       }
-      if(!this.isExist){
+      if (!this.isExist) {
         this.hintTxt = '账号不存在'
         this.isShow = true
-        setTimeout(() => {this.isShow = false},1000)
+        setTimeout(() => { this.isShow = false }, 1000)
       }
     }
   }
-};
+}
 </script>
 <style lang="less">
 #lgn_body{
