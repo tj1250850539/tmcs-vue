@@ -82,6 +82,12 @@ export default {
       }
     },
   },
+  created (){
+    let isLocal = localStorage.getItem('userInfo')
+    if(isLocal){
+      this.$store.commit('amendLocal',isLocal)
+    }
+  },
   methods: {
     inFocus(){
       // console.log(this.isExistPhone)

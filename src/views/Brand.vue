@@ -125,7 +125,7 @@ export default {
       setInterval(outTime,1000)
       function outTime () {
         let date = new Date().getTime() //设置当前时间
-        let end = new Date('2019/4/19 22:00:00').getTime() //设置未来时间
+        let end = new Date('2019/4/20 22:00:00').getTime() //设置未来时间
         let time = end-date //得到时间差
         _this.conds = parseInt(time/1000%60)<10?'0'+ parseInt(time/1000%60): parseInt(time/1000%60)
         _this.min = parseInt(time/1000/60%60)<10?'0'+ parseInt(time/1000/60%60): parseInt(time/1000/60%60)

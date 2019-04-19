@@ -1,13 +1,18 @@
 <template>
   <div class="Shopping">
-    <div class="ShoopingList" v-for="item in shoppingList" :key='item.nid'>
-      <van-card
-      :price="item.price"
-      :desc="'月销量'+item.sold"
-      :title="item.title"
-      :thumb="item.img" @touchstart='gogoods(item.nid)'/>
-      <i class="iconfont icon-gouwuche" @click="goshopping"></i>
+    <div   v-if='showIsData'>
+      <div class="ShoopingList" v-for="item in shoppingList" :key='item.nid'>
+        <van-card
+        :price="item.price"
+        :desc="'月销量'+item.sold"
+        :title="item.title"
+        :thumb="item.img" @touchstart='gogoods(item.nid)'/>
+        <i class="iconfont icon-gouwuche" @click="goshopping"></i>
+      </div>
     </div>
+    <p v-else class='no_data_content' style='width:100%;height:100%;'>
+      天猫超市太坑爹啦<br>数据加密拿不到<br>假数据太长不想写
+    </p>
     <div class="tm-footer">
       <!-- <van-tabbar v-model="active">
         <van-tabbar-item icon="shopping-cart-o" :info="shoppingNum"></van-tabbar-item>
@@ -30,7 +35,8 @@ export default {
     return {
       active: 0,
       shoppingList: [],
-      shoppingNum: 1
+      shoppingNum: 1,
+      showIsData:true
     }
   },
   methods: {
@@ -56,6 +62,10 @@ export default {
                 this.shoppingList.sort(this.compare('price'))
               }
             }
+          }
+          if(this.shoppingList.length == 0){
+            this.showIsData = false
+            console.log('没有数据')
           }
         }else{
           alert('获取数据失败')
@@ -86,6 +96,14 @@ export default {
 </script>
 
 <style lang="less">
+.no_data_content{
+  position: absolute;
+  top:200px;
+  text-align:center;
+  width:100%;
+  font-size:24px;
+  color:#999;
+}
 .Shopping{
   padding-bottom: 50px;
 }

@@ -8,7 +8,7 @@
     <div id='pe_header'>
       <h1 class='header_user'>
         <img class='user_img' src="http://img.mp.sohu.com/upload/20170619/b21b3e8d03714011a551f6c641fb3f6a.png" alt="">
-        你好,&nbsp;&nbsp;&nbsp;{{ userPhone }}
+        你好,&nbsp;&nbsp;&nbsp;{{ this.$store.state.loginName }}
       </h1>
       <div class='header_togoo'>
         <div class='user_card'>
@@ -58,7 +58,7 @@ export default {
     return {
       groupItems:{},
       bannerList:{},
-      iscolor:false
+      iscolor:false,
     }
   },
   computed: {
