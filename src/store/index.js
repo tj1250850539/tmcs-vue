@@ -35,7 +35,7 @@ const store = new Vuex.Store({
       if(obj.shoppingNid){
         if (sGoods) {
           for(var i = 0; i < sGoods.length; i++) {
-            if (sGoods[i].id == obj.shoppingId && sGoods[i].nid === obj.shoppingNid) {
+            if (sGoods[i].id == obj.shoppingId && sGoods[i].nid == obj.shoppingNid) {
               sGoods[i].num += obj.num
               break
             }
