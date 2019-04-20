@@ -119,6 +119,12 @@ export default {
     }
   },
   methods: {
+    showNotify() {
+      this.$notify({
+        message: ('购买成功'),
+        duration: 700,
+      })
+    },
     backout(e) {
       this.$router.push('/index')
       e.preventDefault()
@@ -220,10 +226,10 @@ export default {
     },
     onSubmit () {
       let j = 0
+      let flag = false
       for(var i = 0;i < this.shoppingTrolleyList.length;i++){
-        console.log(111)
         if(this['checkeds'+(i+j)]){
-          console.log(1111)
+          flag = true
           this.$store.commit('deleteshoppingList',this.shoppingTrolleyList[i].id)
           this.shoppingTrolleyList.splice(i,1)
           this['checkeds'+(i+j)] = false
@@ -232,7 +238,11 @@ export default {
         }
       }
       this.count()
-      alert('购买成功')
+      if(flag){
+        this.showNotify()
+        this.checked = false
+
+      }
     },
     count () {
       this.totalPrice = 0

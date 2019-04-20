@@ -234,6 +234,7 @@ export default {
         if(this.Oflag === 1){
           let shoppingId = this.$route.query.id
           this.$store.commit({type:'pushShopping', shoppingId:shoppingId, num:this.shoppNum})
+          this.showNotify()
         }else{
           let shoppingId = this.$route.query.nid
           let shoppingNid = this.$route.query.id

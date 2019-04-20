@@ -29,7 +29,7 @@ const store = new Vuex.Store({
   //唯一能修改state 的东西
   mutations: {
     pushShopping (state,obj) {
-      let goods = state.loginName + 'goods'
+      //let goods = state.loginName + 'goods'
       let sGoods = state.shoppingList.goods
       if(obj.shoppingNid){
         if (sGoods) {
