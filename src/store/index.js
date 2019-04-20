@@ -31,10 +31,11 @@ const store = new Vuex.Store({
     pushShopping (state,obj) {
       //let goods = state.loginName + 'goods'
       let sGoods = state.shoppingList.goods
+      console.log(sGoods)
       if(obj.shoppingNid){
         if (sGoods) {
           for(var i = 0; i < sGoods.length; i++) {
-            if (sGoods[i].id === obj.shoppingId && sGoods[i].nid === obj.shoppingNid) {
+            if (sGoods[i].id == obj.shoppingId && sGoods[i].nid === obj.shoppingNid) {
               sGoods[i].num += obj.num
               break
             }
@@ -48,7 +49,7 @@ const store = new Vuex.Store({
       }else{
         if (sGoods) {
           for(var i = 0; i < sGoods.length; i++) {
-            if (sGoods[i].id === obj.shoppingId) {
+            if (sGoods[i].id == obj.shoppingId) {
               sGoods[i].num += obj.num
               break
             }
