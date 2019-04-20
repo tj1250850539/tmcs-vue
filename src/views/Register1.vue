@@ -11,10 +11,8 @@
           <div class="re_info_pu re_info_region">
             <label for="">国家/地区</label>
             <select name="" id="re_select">
-              <option value="">马拉维(+256)</option>
               <option value="">中国(+86)</option>
-              <option value="">中国</option>
-              <option value="">中国</option>
+              <option value="">马拉维(+256)</option>
             </select>
             <i>∨</i>
           </div>

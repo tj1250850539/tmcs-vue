@@ -6,7 +6,7 @@
         :price="item.price"
         :desc="'月销量'+item.sold"
         :title="item.title"
-        :thumb="item.img" @touchstart='gogoods(item.nid)'/>
+        :thumb="item.img" @click='gogoods(item.nid)'/>
         <i class="iconfont icon-gouwuche" @click="goshopping(item.nid)"></i>
       </div>
     </div>

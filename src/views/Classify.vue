@@ -61,7 +61,7 @@ export default {
   },
   created () {
     this.getNavList()
-    this.navId = this.$route.params.id || '2122'
+    this.navId = this.$route.query.id || '2122'
  },
   updated () {
     this.getActiveKey(this.navId)

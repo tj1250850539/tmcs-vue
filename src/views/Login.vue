@@ -16,7 +16,7 @@
         </div>
         <slot name="re_uname_hint"></slot>
         <div class="lgn_sub">
-          <input type="submit" @touchstart='login' value="登 录" style="width:100%">
+          <input type="submit" @touchstart.prevent='login' value="登 录" style="width:100%">
         </div>
       </form>
       <div class="lgn_link">

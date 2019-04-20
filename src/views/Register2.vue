@@ -17,7 +17,7 @@
         </div>
         <p class='hint_txt'>6-25个字符.推荐使用中文.请勿包括姓名/身份证/银行卡等隐私信息,可用于登录或找回密码</p>
         <div class="lgn_sub">
-          <input type="submit" value="注 册" style="width:100%" @touchstart='register'>
+          <input type="submit" value="注 册" style="width:100%" @touchstart.prevent='register'>
         </div>
       </form>
     </div>
