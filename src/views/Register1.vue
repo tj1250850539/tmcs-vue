@@ -25,7 +25,7 @@
         </div>
         <div class="re_slide" ref='slider'>
           <div class="re_slide_mask" :class='{mask_w:isReach}' ref='mask' style='width:0'></div>
-          <div class="re_sliding" :class='{reach:isReach}' ref='thunk' @touchend="up" @touchstart="down" @touchmove="move">>></div>
+          <div class="re_sliding" :class='{reach:isReach}' ref='thunk' @touchend.prevent="up" @touchstart.prevent="down" @touchmove.prevent="move">>></div>
           <label for="" class="re_slide_lab">向右滑动验证</label>
         </div>
       </form>
@@ -166,7 +166,7 @@ export default {
               _this.$refs.mask.style.width = '0px'
               _this.isReach = false
               _this.isShow = false
-            },1010)
+            },1000)
             this.isDown=false;
           }
         }
